@@ -1,34 +1,119 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Getting Started
+## 1. Nextjs Project 新規作成
 
-First, run the development server:
+ーcreate-next-app
+```bash
+npx create-next-app@11.1.2 .
+```
+
+
+
+ーApollo Clientインストール
+```bash
+yarn add @apollo/client graphql @apollo/react-hooks
+```
+
+ー".babelrc"ファイルを作成
+```bash
+touch .babelrc
+```
 
 ```bash
-npm run dev
-# or
+{
+        "presets": ["next/babel"]
+    }
+```
+
+
+## 2. TypeScript の導入
+
+ー空のtsconfig.json作成
+```bash
+touch tsconfig.json
+```
+
+ー必要moduleのインストール
+```bash
+yarn add -D typescript @types/react @types/node
+```
+
+ー開発server起動
+```bash
 yarn dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+ー_app.js, index.js -> tsx へ拡張子変更
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+ーAppProps型追記
+```bash
+import { AppProps } from 'next/app'
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+    function MyApp({ Component, pageProps }: AppProps) {
+        return <Component {...pageProps} />
+    }
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+    export default MyApp
+```
 
-## Learn More
+## 3. Tailwind CSS の導入
 
-To learn more about Next.js, take a look at the following resources:
+ー必要moduleのインストール
+```bash
+yarn add tailwindcss@latest postcss@latest autoprefixer@latest
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+ーtailwind.config.js, postcss.config.jsの生成
+```bash
+npx tailwindcss init -p
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+ーtailwind.config.jsのcontent設定追加
+```bash
+content: [
+        "./pages/**/*.{js,ts,jsx,tsx}",
+        "./components/**/*.{js,ts,jsx,tsx}",
+    ]
+```
 
-## Deploy on Vercel
+ーglobals.cssの編集
+```bash
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 4. GraphQL codegen
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+ー必要moduleのインストール
+```bash
+yarn add -D @graphql-codegen/cli
+```
+
+```bash
+yarn graphql-codegen init
+```
+<img width="635" alt="250824716-50c23b08-c997-4b6c-b09d-02d30746385b" src="https://github.com/MakikoYamada/hasura/assets/96478420/8e2decb4-afda-4a0d-ae7b-3189f1e2ee55">
+
+```bash
+yarn
+```
+
+```bash
+yarn add -D @graphql-codegen/typescript
+```
+
+ーqueriesフォルダ、queries.tsファイル作成
+
+<img width="275" alt="スクリーンショット 2023-07-05 13 57 57" src="https://github.com/MakikoYamada/hasura/assets/96478420/4cfbcdc5-19f2-474a-be70-e4f55947f269">
+
+ーcodegen.ymlにhasuraシークレットを記載
+
+<img width="802" alt="250829489-4fcedc20-c1d9-42ff-8909-2d6e72d9d08d" src="https://github.com/MakikoYamada/hasura/assets/96478420/e884a473-9cd1-48be-845a-53401819678d">
+
+
+ージェネレートする
+```bash
+yarn gen-types
+```
+
+src/gql フォルダが作成され、ジェネレートされた記述ができる
