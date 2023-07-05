@@ -1,0 +1,10 @@
+overwrite: true
+schema:
+  - 'https://db-aws-test-001.hasura.app/v1/graphql':
+      headers:
+        x-hasura-admin-secret: '4ey14kitXxSeYenrGPHcogZICv8Yq5Vz5dvy3WQhBAYkuxtPGQ2iknY72UuvNHq5'
+documents: 'queries/**/*.ts'
+generates:
+  src/gql/:
+    preset: 'client'
+    plugins: []
